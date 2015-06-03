@@ -142,7 +142,38 @@ class ConnectFour {
     /**
      * Creates a 'move' for each player by randomly choosing a column to drop a piece into.
      */
+
+
+    protected function _getPossibilities() 
+    {
+     //Random column chosen for placing chips
+        $_target_col = 0;
+        $_current_board = $this->_getCurrentBoard();
+
+        $possible = array();
+        for($_target_col = 0; $_target_col<6; $_target_col++) {
+
+            for( $row = 0; $row<$this->getRows()-1; $row++ ){
+
+                if( $_current_board[$row][$_target_col] === -1 )
+                {  
+                    $possible[$_target_col] = $row;
+                    if($row >= 5) {$row = 9001;}
+                }   
+
+            }
+         }
+         return $possible;
+    }
+
+
+
     protected function _dropPiece(){
+
+        $test = $this->_getPossibilities();
+        echo '<pre>';
+        print_r($test);
+        echo '</pre>';
 
         //Check if total moves reached. (Recursive baseline)
         if( $this->_moves >= ( $this->getRows() * $this->getColumns() )) {
@@ -197,7 +228,9 @@ class ConnectFour {
                     $_SESSION['moves']=$this->_moves;
                     $_SESSION['current_player']=$this->_current_player;
 
+                    echo '<pre>';
                     var_dump($_SESSION);
+                    echo '</pre>';
 
                     echo('<br /><br />');
 
@@ -214,6 +247,56 @@ class ConnectFour {
         $this->_dropPiece();
 
     }
+
+
+
+
+
+
+    protected function verticalCheckAI()
+    {
+     $_board_array = $this->_getCurrentBoard();
+            $_player = $_board_array[$row][$col];
+            $_count = 0;
+
+            //count towards the left of current piece
+            for ( $i = $col; $i>=0; $i-- )
+            {
+
+                if( $_board_array[$row][$i] !== $_player ){
+
+                    break;
+
+                }
+
+                $_count++;
+
+            }
+
+            //count towards the right of current piece
+            for ( $i = $col + 1; $i<$this->getColumns(); $i++ )
+            {
+
+                if( $_board_array[$row][$i] !== $_player ){
+
+                    break;
+
+                }
+
+                $_count++;
+
+            }
+
+            return $_count>=3 ? true : false;
+
+        }
+
+
+
+
+
+
+
 
     /**
      * Print out each step (board and details)

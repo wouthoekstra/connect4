@@ -19,11 +19,14 @@ table td{
 }
 table td.player-1{background:red; }
 table td.player-2{background:blue; }
+img {
+    width:10%;
+}
 </style>
 </head>
 
 <body>
-<h2>Connect 4</h2>
+<h2>Connect 4</h2><img src="./Images/connect-four.png">
 Player 1 - Red <br/>
 Player 2 - Blue <br/>
 <?php

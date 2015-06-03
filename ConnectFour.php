@@ -131,6 +131,9 @@ class ConnectFour {
 
             //Set a random player to start first
             $this->_setCurrentPlayer(rand(1,2));
+
+            $_SESSION['current_player'] = $this->_current_player;
+
         }
 
 
@@ -153,65 +156,139 @@ class ConnectFour {
             return false;
         }
 
-        //Random column chosen for placing chips
-        $_target_col = rand(0, $this->getColumns()-1);
-        $_current_board = $this->_getCurrentBoard();
+        if($_SESSION['current_player']=='1') {
+            //Random column chosen for placing chips
+            $_target_col = rand(0, $this->getColumns() - 1);
+            $_current_board = $this->_getCurrentBoard();
 
-        for( $row = $this->getRows()-1; $row>=0; $row-- ){
+            for ($row = $this->getRows() - 1; $row >= 0; $row--) {
 
-            //If slot is currently empty
-            if( $_current_board[$row][$_target_col] === -1 ){
+                //If slot is currently empty
+                if ($_current_board[$row][$_target_col] === -1) {
 
-                //Set slot to current player
-                $_current_board[$row][$_target_col] = $this->_getCurrentPlayer();
+                    //Set slot to current player
+                    $_current_board[$row][$_target_col] = $this->_getCurrentPlayer();
 
-                //Update the no. of moves, might wana setter/getter this
-                $this->_moves++;
+                    //Update the no. of moves, might wana setter/getter this
+                    $this->_moves++;
 
-                //Update the board
-                $this->_setCurrentBoard($_current_board);
+                    //Update the board
+                    $this->_setCurrentBoard($_current_board);
 
-                //Print current board
-                $this->_printBoard();
+                    //Print current board
+                    //$this->_printBoard();
 
-                //Check for winner
-                if( $this->_checkForWinner( $row, $_target_col ) ){
+                    //Check for winner
+                    if ($this->_checkForWinner($row, $_target_col)) {
 
-                    //If winner is found
-                    $this->_showWinnerMessage();
-                    session_destroy();
+                        //If winner is found
+                        $this->_showWinnerMessage();
+                        $this->_printBoard();
+                        session_destroy();
 
+                        return false;
+
+                    } else {
+
+                        //Else continue the game
+
+                        //Change player
+                        $this->_togglePlayer();
+
+                        //Drop the piece
+                        //$this->_dropPiece();
+                        //var_dump($this->_board_array);
+                        $_SESSION['board_array'] = $this->_board_array;
+                        $_SESSION['moves'] = $this->_moves;
+                        $_SESSION['current_player'] = $this->_current_player;
+                        $this->_dropPiece();
+                        var_dump($_SESSION);
+
+                        echo('<br /><br />');
+
+                    }
+
+                    //exit once a piece is dropped for this move
                     return false;
-
-                }else{
-
-                    //Else continue the game
-
-                    //Change player
-                    $this->_togglePlayer();
-
-                    //Drop the piece
-                    //$this->_dropPiece();
-                    //var_dump($this->_board_array);
-                    $_SESSION['board_array']=$this->_board_array;
-                    $_SESSION['moves']=$this->_moves;
-                    $_SESSION['current_player']=$this->_current_player;
-
-                    var_dump($_SESSION);
-
-                    echo('<br /><br />');
 
                 }
 
-                //exit once a piece is dropped for this move
-                return false;
+            }
+            //If it comes to here, it means no slots are empty (column is full). Redo move again
+            $this->_dropPiece();
+        }
+        else
+        {
+            //Random column chosen for placing chips
+            if(isset($_POST['column'])) {
+                $_target_col = $_POST['column'];
 
+
+                $_current_board = $this->_getCurrentBoard();
+                for ($row = $this->getRows() - 1; $row >= 0; $row--) {
+
+                    //If slot is currently empty
+                    if ($_current_board[$row][$_target_col] === -1) {
+
+                        //Set slot to current player
+                        $_current_board[$row][$_target_col] = $this->_getCurrentPlayer();
+
+                        //Update the no. of moves, might wana setter/getter this
+                        $this->_moves++;
+
+                        //Update the board
+                        $this->_setCurrentBoard($_current_board);
+
+                        //Print current board
+                        $this->_printBoard();
+
+                        //Check for winner
+                        if ($this->_checkForWinner($row, $_target_col)) {
+
+                            //If winner is found
+                            $this->_showWinnerMessage();
+                            session_destroy();
+
+                            return false;
+
+                        } else {
+
+                            //Else continue the game
+
+                            //Change player
+                            $this->_togglePlayer();
+
+                            //Drop the piece
+
+                            //var_dump($this->_board_array);
+                            $_SESSION['board_array'] = $this->_board_array;
+                            $_SESSION['moves'] = $this->_moves;
+                            $_SESSION['current_player'] = $this->_current_player;
+                            //unset($_POST['column']);
+                            //$this->_dropPiece();
+
+                            var_dump($_SESSION);
+                            header('location:http://localhost/connect4');
+                            echo('<br /><br />');
+
+                        }
+
+                        //exit once a piece is dropped for this move
+                        return false;
+
+                    }
+
+                }
+                //If it comes to here, it means no slots are empty (column is full). Redo move again
             }
 
+            else
+            {
+                $this->_printBoard();
+            }
+            var_dump($_SESSION);
+            //$this->_dropPiece();
         }
-
-        //If it comes to here, it means no slots are empty (column is full). Redo move again
-        $this->_dropPiece();
 
     }
 
@@ -222,7 +299,8 @@ class ConnectFour {
 
         print '<p>Player '. $this->_getCurrentPlayer() .': Move No. ' . $this->_moves . '</p>';
 
-        print '<table>';
+        print '<form method="post" action="#">
+        <table>';
 
         $_board_array = $this->_getCurrentBoard();
 
@@ -253,7 +331,18 @@ class ConnectFour {
 
         }
 
-        print '</table>';
+        print '
+            <tr>
+                <td><input type="submit" name="column" value="0" /></td>
+                <td><input type="submit" name="column" value="1" /></td>
+                <td><input type="submit" name="column" value="2" /></td>
+                <td><input type="submit" name="column" value="3" /></td>
+                <td><input type="submit" name="column" value="4" /></td>
+                <td><input type="submit" name="column" value="5" /></td>
+                </form>
+            </tr>
+            ';
+        print '</table></form>';
     }
 
     /**

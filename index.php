@@ -17,7 +17,9 @@ table td{
 	border-right:1px solid #444;
 	border-bottom:1px solid #444;
 	text-indent:-9999px;
+    text-indent:10px;
 }
+
 table td.player-1{background:red; }
 table td.player-2{background:blue; }
 img {

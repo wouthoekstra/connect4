@@ -318,7 +318,7 @@ class ConnectFour {
             {
                 $this->_printBoard();
             }
-            var_dump($_SESSION);
+            //var_dump($_SESSION);
             //$this->_dropPiece();
         }
 

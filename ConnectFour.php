@@ -222,7 +222,7 @@ class ConnectFour {
 
         print '<p>Player '. $this->_getCurrentPlayer() .': Move No. ' . $this->_moves . '</p>';
 
-        print '<table>';
+        print '<div class="col-md-6 col-sm-8"><table class="table">';
 
         $_board_array = $this->_getCurrentBoard();
 
@@ -253,7 +253,7 @@ class ConnectFour {
 
         }
 
-        print '</table>';
+        print '</table></div>';
     }
 
     /**

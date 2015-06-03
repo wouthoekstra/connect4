@@ -97,6 +97,67 @@ class ConnectFour {
      *
      * Alternatively, the assignment assumes you will use a static 6x6 board, in that case, which you can create a static 2d array and pass it to this function.
      */
+
+    function score_column($array)
+    {
+        $score_array=array();
+        for($i=0;$i<count($array);$i++)
+        {
+            if($array[$i]>9000)
+            {
+            }
+            else
+            {
+                if($array[$i]>2)
+                {
+                    if($array[$i]-1=='2')
+                    {
+                        if($array[$i]-2=='2')
+                        {
+                            $score_array[$i]+=50-5*$array[$i];
+                            if($array[$i]-3=='2')
+                            {
+                                $score_array[$i]+=10000;
+                            }
+                        }
+                        else
+                        {
+                            $score_array[$i]+=30-5*$array[$i];
+                        }
+                    }
+                    elseif($array[$i]-1=='1')
+                    {
+                        if($array[$i]-1=='1')
+                        {
+                            $score_array[$i]+=30-5*$array[$i];
+                            if($array[$i]-1=='1')
+                            {
+                                $score_array[$i]+=1000;
+                            }
+                        }
+                        else
+                        {
+                            $score_array[$i]+=30-5*$array[$i];
+
+                        }
+
+                    }
+                    else
+                    {
+                        $score_array[$i]+=30-5*$array[$i];
+                    }
+                }
+                else
+                {
+                    $score_array[$i]+=30-5*$array[$i];
+                }
+            }
+
+
+        }
+        var_dump($score_array);
+    }
+
     protected function _initializeGameBoard(){
 
         //resets the board array
@@ -202,7 +263,7 @@ class ConnectFour {
                         $_SESSION['moves'] = $this->_moves;
                         $_SESSION['current_player'] = $this->_current_player;
                         $this->_dropPiece();
-                        var_dump($_SESSION);
+                        //var_dump($_SESSION);
 
                         echo('<br /><br />');
 
@@ -219,7 +280,6 @@ class ConnectFour {
         }
         else
         {
-            //Random column chosen for placing chips
             if(isset($_POST['column'])) {
                 $_target_col = $_POST['column'];
 
@@ -280,6 +340,7 @@ class ConnectFour {
 
                 }
                 //If it comes to here, it means no slots are empty (column is full). Redo move again
+                $this->_printBoard();
             }
 
             else
@@ -297,7 +358,7 @@ class ConnectFour {
      */
     protected function _printBoard(){
 
-        print '<p>Player '. $this->_getCurrentPlayer() .': Move No. ' . $this->_moves . '</p>';
+        print '<p>Player '. $this->_getCurrentPlayer() .': </p>';
 
 
         print '<div class="col-md-6 col-sm-8"><table class="table">

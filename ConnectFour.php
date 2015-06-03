@@ -100,6 +100,7 @@ class ConnectFour {
 
     function score_column($array)
     {
+        var_dump($array);
         $score_array=array();
         for($i=0;$i<count($array);$i++)
         {
@@ -108,13 +109,13 @@ class ConnectFour {
             }
             else
             {
-                if($array[$i]>2)
+                if($array[$i]<3)
                 {
                     if($array[$i]-1=='2')
                     {
                         if($array[$i]-2=='2')
                         {
-                            $score_array[$i]+=50-5*$array[$i];
+                            $score_array[$i]+=50-5*(5-$array[$i]);
                             if($array[$i]-3=='2')
                             {
                                 $score_array[$i]+=10000;
@@ -122,14 +123,14 @@ class ConnectFour {
                         }
                         else
                         {
-                            $score_array[$i]+=30-5*$array[$i];
+                            $score_array[$i]+=30-5*(5-$array[$i]);
                         }
                     }
                     elseif($array[$i]-1=='1')
                     {
                         if($array[$i]-1=='1')
                         {
-                            $score_array[$i]+=30-5*$array[$i];
+                            $score_array[$i]+=30-5*(5-$array[$i]);
                             if($array[$i]-1=='1')
                             {
                                 $score_array[$i]+=1000;
@@ -137,25 +138,29 @@ class ConnectFour {
                         }
                         else
                         {
-                            $score_array[$i]+=30-5*$array[$i];
+                            $score_array[$i]+=30-5*(5-$array[$i]);
 
                         }
 
                     }
                     else
                     {
-                        $score_array[$i]+=30-5*$array[$i];
+                        $score_array[$i]+=30-5*(5-$array[$i]);
                     }
                 }
                 else
                 {
-                    $score_array[$i]+=30-5*$array[$i];
+                    $score_array[$i]+=30-5*(5-$array[$i]);
                 }
             }
 
 
         }
+        echo('<br /><br />');
         var_dump($score_array);
+        $maxs = array_keys($score_array, max($score_array));
+        echo($maxs[0]);die;
+        return $score_array[$maxs[0]];
     }
 
     protected function _initializeGameBoard(){
@@ -208,7 +213,7 @@ class ConnectFour {
      */
 
 
-    protected function _getPossibilities() 
+    function _getPossibilities()
     {
      //Random column chosen for placing chips
         $_target_col = 0;
@@ -234,11 +239,6 @@ class ConnectFour {
 
     protected function _dropPiece(){
 
-        $test = $this->_getPossibilities();
-        echo '<pre>';
-        print_r($test);
-        echo '</pre>';
-
         //Check if total moves reached. (Recursive baseline)
         if( $this->_moves >= ( $this->getRows() * $this->getColumns() )) {
 
@@ -250,7 +250,11 @@ class ConnectFour {
 
         if($_SESSION['current_player']=='1') {
             //Random column chosen for placing chips
-            $_target_col = rand(0, $this->getColumns() - 1);
+            //$_target_col = rand(0, $this->getColumns() - 1);
+            //$_target_col = $this->score_column($this->_getPossibilities());
+            $poss = $this->_getPossibilities();
+            var_dump($poss);
+            die;
             $_current_board = $this->_getCurrentBoard();
 
             for ($row = $this->getRows() - 1; $row >= 0; $row--) {

@@ -19,7 +19,7 @@ Player 2 - Blue <br/>
 //Load our file
 require 'ConnectFour.php';
 //Instantiate our game
-$new_game = new ConnectFour(); 
+$new_game = new ConnectFour();
 ?>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

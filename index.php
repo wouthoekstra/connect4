@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-<link type="text/css" rel="stylesheet" href="style/style.css" />
+<link type="text/css" rel="stylesheet" href="style.css" />
 
 <title>Connect 4 - The Game</title>
 </head>

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<h2>Connect 4</h2><img src="./Images/connect-four.png">
+<h2>Connect 4 <img src="./Images/connect4logo.png"></h2>
 Player 1 - Red <br/>
 Player 2 - Blue <br/>
 <?php

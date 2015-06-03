@@ -73,11 +73,17 @@ class ConnectFour {
      */
     function __construct( $rows = 6, $cols = 6){
         session_start();
-        if(!isset($_SESSION['board_array'])) {
+        if(!isset($_SESSION['moves'])) {
+            $_SESSION['moves'] = 0;
             $_SESSION['board_array'] = array();
-            $this->_initGame();
+            $_SESSION['current_player'] = 0;
         }
-        $_board_array=$_SESSION['board_array'];
+        else{
+            $this->_board_array = $_SESSION['board_array'];
+            $this->moves = $_SESSION['moves'];
+            $this->_current_player = $_SESSION['current_player'];
+        }
+        $this->_initGame();
         $this->_setDimensions( $rows, $cols );
 
     }
@@ -118,11 +124,15 @@ class ConnectFour {
      */
     protected function _initGame(){
 
-        //Setup our game board
-        $this->_initializeGameBoard();
+        if($_SESSION['moves']==0)
+        {
+            //Setup our game board
+            $this->_initializeGameBoard();
 
-        //Set a random player to start first
-        $this->_setCurrentPlayer(rand(1,2));
+            //Set a random player to start first
+            $this->_setCurrentPlayer(rand(1,2));
+        }
+
 
         //start dropping pieces
         $this->_dropPiece();
@@ -139,7 +149,7 @@ class ConnectFour {
 
             //No winner then =(
             $this->_showNoWinnerMessage();
-
+            session_destroy();
             return false;
         }
 
@@ -169,6 +179,7 @@ class ConnectFour {
 
                     //If winner is found
                     $this->_showWinnerMessage();
+                    session_destroy();
 
                     return false;
 
@@ -183,6 +194,8 @@ class ConnectFour {
                     //$this->_dropPiece();
                     //var_dump($this->_board_array);
                     $_SESSION['board_array']=$this->_board_array;
+                    $_SESSION['moves']=$this->_moves;
+                    $_SESSION['current_player']=$this->_current_player;
 
                     var_dump($_SESSION);
 

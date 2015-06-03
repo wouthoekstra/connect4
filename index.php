@@ -2,34 +2,17 @@
 <!doctype html>
 <html>
 <head>
-<title>Connect 4 - The Game</title>
-<style type="text/css">
-p{ margin-top:40px; }
-p.message{font-size:1.5em; text-transform:uppercase; }
-table { border-left:1px solid #444; border-top:1px solid #444; border-collapse:collapse; }
-table td{
-	font-family:arial;
-	font-size:12px;
-	width:20px;
-	height:20px;
-	vertical-align:middle;
-	text-align:center;
-	border-right:1px solid #444;
-	border-bottom:1px solid #444;
-	text-indent:-9999px;
-    text-indent:10px;
-}
 
-table td.player-1{background:red; }
-table td.player-2{background:blue; }
-img {
-    width:10%;
-}
-</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<link type="text/css" rel="stylesheet" href="style.css" />
+
+<title>Connect 4 - The Game</title>
+
 </head>
 
 <body>
-<h2>Connect 4</h2><img src="./Images/connect-four.png">
+<h2>Connect 4 <img src="./Images/connect4logo.png"></h2>
 Player 1 - Red <br/>
 Player 2 - Blue <br/>
 <?php
@@ -38,5 +21,7 @@ require 'ConnectFour.php';
 //Instantiate our game
 $new_game = new ConnectFour(); 
 ?>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </body>
 </html>

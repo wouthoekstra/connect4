@@ -299,8 +299,10 @@ class ConnectFour {
 
         print '<p>Player '. $this->_getCurrentPlayer() .': Move No. ' . $this->_moves . '</p>';
 
-        print '<form method="post" action="#">
-        <table>';
+
+        print '<div class="col-md-6 col-sm-8"><table class="table">
+        <form method="post" action="#">';
+
 
         $_board_array = $this->_getCurrentBoard();
 
@@ -342,7 +344,8 @@ class ConnectFour {
                 </form>
             </tr>
             ';
-        print '</table></form>';
+        print '</table></form></div>';
+
     }
 
     /**
